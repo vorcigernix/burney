@@ -11,7 +11,6 @@
     "buffer": "^6.0.3",
     "postcss": "^8.4.18",
     "solid-start-netlify": "^0.2.5",
-    "solid-start-node": "^0.2.0",
     "tailwindcss": "^3.2.0",
     "vite": "^3.1.8"
   },
