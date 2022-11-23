@@ -23,7 +23,7 @@ export function createLegacySignClient({ uri } = {}) {
     if (error) {
       throw new Error(`legacySignClient > session_request failed: ${error}`);
     }
-    console.log("session request", payload);
+    //console.log("session request", payload);
     changePayload(payload);
   });
 

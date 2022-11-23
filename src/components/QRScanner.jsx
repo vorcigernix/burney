@@ -27,7 +27,7 @@ export default function QRReader({ onConnect }) {
     <div class="flex flex-col justify-center items-center">
       <video
         ref={videoRef}
-        className="object-cover w-full max-w-sm h-96 mb-8 bg-amber-400/50 border-2 border-amber-400"
+        className="object-cover w-full max-w-sm h-96 mb-8 bg-amber-400/50 backdrop-blur-lg border-2 border-amber-400/10"
         muted
         id="scanner"
       />

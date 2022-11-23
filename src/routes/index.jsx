@@ -12,7 +12,6 @@ export default function Home() {
   createEffect(() => {
     //console.log("The payload is now", pload());
     if (pload()) setMethod(pload().method);
-    console.log(method());
   });
 
 
