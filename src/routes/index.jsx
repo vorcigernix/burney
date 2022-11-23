@@ -2,15 +2,20 @@ import { parseUri } from "@walletconnect/utils";
 import Modal from '~/components/ConnectModal';
 import QRReader from "~/components/QRScanner";
 import { createLegacySignClient } from "~/utils/LegacyWalletConnectUtil";
-import wallet from '../components/WalletState';
-import { createSignal, createEffect } from 'solid-js';
+import { createOrRestoreEIP155Wallet } from "~/utils/EIP155WalletUtil.js";
+import walletState from '~/components/WalletState';
+import { createSignal, createEffect, onMount } from 'solid-js';
 export default function Home() {
   const [method, setMethod] = createSignal("");
-  const { pload } = wallet;
-  //const { method } = pload() || "";
+  const { pload, changeWallet } = walletState;
+
+
+  onMount(() => {
+    const wallet = changeWallet(createOrRestoreEIP155Wallet());
+  });
+
 
   createEffect(() => {
-    //console.log("The payload is now", pload());
     if (pload()) setMethod(pload().method);
   });
 

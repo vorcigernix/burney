@@ -6,6 +6,7 @@ specifiers:
   '@walletconnect/client': ^1.8.0
   '@walletconnect/legacy-types': 2.0.0-rc.0
   '@walletconnect/utils': ^2.1.3
+  '@webcrypto/storage': ^3.0.0
   autoprefixer: ^10.4.12
   buffer: ^6.0.3
   ethers: ^5.7.2
@@ -25,6 +26,7 @@ dependencies:
   '@walletconnect/client': 1.8.0
   '@walletconnect/legacy-types': 2.0.0-rc.0
   '@walletconnect/utils': 2.1.3
+  '@webcrypto/storage': 3.0.0
   ethers: 5.7.2
   node-stdlib-browser: 1.2.0
   qr-scanner: 1.4.1
@@ -1991,6 +1993,19 @@ packages:
       '@walletconnect/window-getters': 1.0.0
     dev: false
 
+  /@webcrypto/storage/3.0.0:
+    resolution: {integrity: sha512-NL65nlH2ZnmlEJkiqmGUdro89uTi5rNZtzNXAnLPwu+cZ8Kb4GloiUGiuWro+JVcHNEDypOGQdUt0CVjnZg/Kg==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      '@webcrypto/tools': 2.0.0
+      idb: 6.1.5
+    dev: false
+
+  /@webcrypto/tools/2.0.0:
+    resolution: {integrity: sha512-5MDKsh0Llu/EyVTgTL68jLrD5K4kqlHGm0hsom5ZL94ILzwnXAGfiysSWMGQ9MMYUHjx7aXGZQRGdFiIMYXMEA==}
+    engines: {node: '>=10.0.0'}
+    dev: false
+
   /accepts/1.3.8:
     resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
     engines: {node: '>= 0.6'}
@@ -3305,6 +3320,10 @@ packages:
 
   /https-browserify/1.0.0:
     resolution: {integrity: sha512-J+FkSdyD+0mA0N+81tMotaRMfSL9SGi+xpD3T6YApKsc3bGSXJlfXri3VyFOeYkfLRQisDk1W+jIFFKBeUBbBg==}
+    dev: false
+
+  /idb/6.1.5:
+    resolution: {integrity: sha512-IJtugpKkiVXQn5Y+LteyBCNk1N8xpGV3wWZk9EVtZWH8DYkjBn0bX1XnGP9RkyZF0sAcywa6unHqSWKe7q4LGw==}
     dev: false
 
   /ieee754/1.2.1:

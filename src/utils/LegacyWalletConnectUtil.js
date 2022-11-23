@@ -1,11 +1,11 @@
 import LegacySignClient from '@walletconnect/client/dist/umd/index.min.js';
 import { EIP155_SIGNING_METHODS } from './EIP155Data';
-import wallet from '../components/WalletState';
+import ploadState from '../components/WalletState';
 export let legacySignClient;
 
 
 export function createLegacySignClient({ uri } = {}) {
-  const { pload, changePayload } = wallet;
+  const { pload, changePayload } = ploadState;
   //console.log(pload());
   // If URI is passed always create a new session,
   // otherwise fall back to cached session if client isn't already instantiated.
