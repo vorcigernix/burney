@@ -1,10 +1,10 @@
 import solid from "solid-start/vite";
-import { Buffer as BufferPolyfill } from "buffer/";
+import netlify from "solid-start-netlify";
 import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [
     solid({
-      ssr: false,
+      adapter: netlify({ edge: true })
     }),
   ],
   define: {

@@ -6,11 +6,11 @@ export default function Nav() {
     const [open, setOpen] = createSignal(false);
 
     return (
-        <nav class="flex flex-wrap items-center justify-center py-6  mx-auto sticky top-0 z-50">
+        <nav class="flex flex-wrap items-center justify-center py-6  mx-auto sticky top-0 z-50 backdrop-blur-lg">
             <div class="container flex flex-wrap items-center justify-between xl:max-w-screen-xl px-3">
                 <div class="w-full relative flex justify-between xl:w-auto xl:static xl:block xl:justify-start">
                     <A
-                        class="ml-2 text-amber-400 font-bold text-xl leading-relaxed flex items-center justify-center"
+                        class="mx-2 text-amber-400 font-bold text-xl leading-relaxed flex items-center justify-center"
                         href="/"
                         onClick={() => setOpen(false)}
                     >
@@ -41,14 +41,14 @@ export default function Nav() {
                             </li>
                             <li>
                                 <A
-                                    href="/manual"
+                                    href="/wallet"
                                     class="px-5 py-2 flex items-center leading-snug hover:opacity-75"
                                     onClick={() => setOpen(false)}
                                     activeClass="activeLink" >Wallet</A>
                             </li>
                             <li>
                                 <A
-                                    href="/schedule"
+                                    href="/about"
                                     class="px-5 py-2 flex items-center leading-snug hover:opacity-75"
                                     onClick={() => setOpen(false)}
                                     activeClass="activeLink" >About</A>
