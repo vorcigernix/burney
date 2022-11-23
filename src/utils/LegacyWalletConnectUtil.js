@@ -1,14 +1,16 @@
 import LegacySignClient from '@walletconnect/client/dist/umd/index.min.js';
 import { EIP155_SIGNING_METHODS } from './EIP155Data';
-
+import wallet from '../components/WalletState';
 export let legacySignClient;
 
+
 export function createLegacySignClient({ uri } = {}) {
+  const { pload, changePayload } = wallet;
+  //console.log(pload());
   // If URI is passed always create a new session,
   // otherwise fall back to cached session if client isn't already instantiated.
   if (uri) {
     deleteCachedLegacySession();
-    //console.log(uri);
     legacySignClient = new LegacySignClient({ uri });
   } else if (!legacySignClient && getCachedLegacySession()) {
     const session = getCachedLegacySession();
@@ -22,7 +24,7 @@ export function createLegacySignClient({ uri } = {}) {
       throw new Error(`legacySignClient > session_request failed: ${error}`);
     }
     console.log("session request", payload);
-    //ModalStore.open('LegacySessionProposalModal', { legacyProposal: payload });
+    changePayload(payload);
   });
 
   legacySignClient.on('connect', () => {

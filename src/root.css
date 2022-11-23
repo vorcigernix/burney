@@ -15,7 +15,7 @@
     body {
         font-family: 'Roboto Mono', monospace;
         @apply text-zinc-50 min-h-screen;
-        background: bottom / cover no-repeat rgb(24 24 27) url("https://images.unsplash.com/photo-1623946238300-701cdd69f04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80");
+        background: bottom / cover no-repeat rgb(24 24 27) url("https://images.unsplash.com/photo-1618859437290-dc3cda39ea58?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80");
     }
 
     @font-face {

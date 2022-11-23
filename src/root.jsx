@@ -26,10 +26,10 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <Nav />
-            <Routes>
-              <FileRoutes />
-            </Routes>
+              <Nav />
+              <Routes>
+                <FileRoutes />
+              </Routes>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

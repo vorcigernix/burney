@@ -1,10 +1,21 @@
 import { parseUri } from "@walletconnect/utils";
-import LegacySignClient from '@walletconnect/client/dist/umd/index.min.js';
-import { EIP155_SIGNING_METHODS } from './EIP155Data';
+import Modal from '~/components/ConnectModal';
 import QRReader from "~/components/QRScanner";
 import { createLegacySignClient } from "~/utils/LegacyWalletConnectUtil";
+import wallet from '../components/WalletState';
+import { createSignal, createEffect } from 'solid-js';
 export default function Home() {
-  let legacySignClient;
+  const [method, setMethod] = createSignal("");
+  const { pload } = wallet;
+  //const { method } = pload() || "";
+
+  createEffect(() => {
+    //console.log("The payload is now", pload());
+    if (pload()) setMethod(pload().method);
+    console.log(method());
+  });
+
+
   async function onConnect(uri) {
     try {
       const { version } = (parseUri(uri));
@@ -19,7 +30,11 @@ export default function Home() {
   }
   return (
     <main class="text-center flex justify-center p-4">
-      <QRReader onConnect={onConnect} />
+      {method() === "" && (
+        <QRReader onConnect={onConnect} />
+      )}
+      {method() === "session_request" && (
+        <Modal payload={pload()} />)}
     </main>
   );
 }
