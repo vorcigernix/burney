@@ -23,7 +23,8 @@
     "ethers": "^5.7.2",
     "qr-scanner": "^1.4.1",
     "solid-js": "^1.6.0",
-    "solid-start": "^0.2.0"
+    "solid-start": "^0.2.0",
+    "solid-start-cloudflare-pages": "^0.2.5"
   },
   "engines": {
     "node": ">=16"
