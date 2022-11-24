@@ -1,5 +1,5 @@
 import walletState from "../components/WalletState";
-import { createEffect, createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount, Show } from "solid-js";
 import {
     createOrRestoreEIP155Wallet,
     storeEIP155Wallet,
@@ -22,11 +22,11 @@ export default function WalletPage() {
             changeWallet(createOrRestoreEIP155Wallet());
             setWalletInstance(wallet());
             //hmm..so it is set, but derived signal does not change 
-            console.log(walletInstance());
+            console.log(mnemonicTokens());
         }
     });
 
-    const mnemonicTokens = () => { walletInstance() ? walletInstance().mnemonic.split(" ") : ""; };
+    const mnemonicTokens = () => { walletInstance()?.mnemonic.split(" "); };
 
     return (
         <main class="flex justify-center p-2">
@@ -41,7 +41,7 @@ export default function WalletPage() {
                             {wallet() && wallet().eip155Addresses[0].slice(5)}
                         </span>
                     </div>
-                    {mnemonicTokens() && (
+                    <Show when={mnemonicTokens()} fallback={<div>Generating...</div>}>
                         <details class="flex-1 space-y-2">
 
                             <summary class="py-2 outline-none cursor-pointer focus:underline">
@@ -68,7 +68,8 @@ export default function WalletPage() {
                                 )}
                             </For>
                         </details>
-                    )}
+                    </Show>
+
                     <p class="leading-relaxed">Waiting for transaction...</p>
                     <div class="flex text-zinc-800">
                         <button
