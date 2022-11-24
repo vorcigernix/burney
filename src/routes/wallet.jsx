@@ -17,6 +17,8 @@ export default function WalletPage() {
             changeWallet(createOrRestoreEIP155Wallet());
         });
     }
+    const mnemonicTokens = () => { return walletInstance()?.mnemonic.split(" "); };
+
     onMount(async () => {
         if (!walletInstance()) {
             changeWallet(createOrRestoreEIP155Wallet());
@@ -26,7 +28,7 @@ export default function WalletPage() {
         }
     });
 
-    const mnemonicTokens = () => { walletInstance()?.mnemonic.split(" "); };
+
 
     return (
         <main class="flex justify-center p-2">
