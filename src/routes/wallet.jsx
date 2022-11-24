@@ -23,8 +23,6 @@ export default function WalletPage() {
         if (!walletInstance()) {
             changeWallet(createOrRestoreEIP155Wallet());
             setWalletInstance(wallet());
-            //hmm..so it is set, but derived signal does not change 
-            console.log(mnemonicTokens());
         }
     });
 
