@@ -27,9 +27,10 @@ export default function QRReader({ onConnect }) {
     <div class="flex flex-col justify-center items-center">
       <video
         ref={videoRef}
-        className="object-cover w-full max-w-sm h-96 mb-8 bg-amber-400/50 backdrop-blur-lg border-2 border-amber-400/10"
+        className="object-cover w-full max-w-sm h-96 mb-8 mix-blend-screen opacity-60"
         muted
         id="scanner"
+        poster="qr-code-animation.gif"
       />
       <div class="flex text-amber-400">
         <button

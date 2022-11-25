@@ -3,9 +3,9 @@ import { EIP155_SIGNING_METHODS } from './EIP155Data';
 import ploadState from '../components/WalletState';
 export let legacySignClient;
 
-
+const { pload, changePayload } = ploadState;
 export function createLegacySignClient({ uri } = {}) {
-  const { pload, changePayload } = ploadState;
+
   //console.log(pload());
   // If URI is passed always create a new session,
   // otherwise fall back to cached session if client isn't already instantiated.
@@ -13,6 +13,7 @@ export function createLegacySignClient({ uri } = {}) {
     deleteCachedLegacySession();
     legacySignClient = new LegacySignClient({ uri });
   } else if (!legacySignClient && getCachedLegacySession()) {
+    console.log("cached session");
     const session = getCachedLegacySession();
     legacySignClient = new LegacySignClient({ session });
   } else {
@@ -48,7 +49,9 @@ export function createLegacySignClient({ uri } = {}) {
 }
 
 const onCallRequest = async (payload) => {
-  console.log("call received");
+  //console.log("call received");
+  changePayload(payload);
+  console.log(pload());
   /*   switch (payload.method) {
       case EIP155_SIGNING_METHODS.ETH_SIGN:
       case EIP155_SIGNING_METHODS.PERSONAL_SIGN:
@@ -93,7 +96,7 @@ function getCachedLegacySession() {
   return session;
 }
 
-function deleteCachedLegacySession() {
+export function deleteCachedLegacySession() {
   if (typeof window === 'undefined') return;
   window.localStorage.removeItem('walletconnect');
 }

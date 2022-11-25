@@ -10,7 +10,7 @@ export default function Home() {
   const { pload, changeWallet } = walletState;
 
   onMount(() => {
-    const wallet = changeWallet(createOrRestoreEIP155Wallet());
+    changeWallet(createOrRestoreEIP155Wallet());
   });
 
 
@@ -36,7 +36,7 @@ export default function Home() {
       <div class="hidden lg:flex items-center justify-between p-6 border-l-8 sm:py-8 border-amber-400 bg-gray-900 text-gray-100 mx-6">
         <span>Hello there. This application is intended for mobile use.</span><a href="/about" class="underline font-bold">Read more here</a>
       </div>
-      <main class="text-center flex justify-center p-4">
+      <main class="text-center flex justify-center p-2">
         {method() === "" && (
           <QRReader onConnect={onConnect} />
         )}

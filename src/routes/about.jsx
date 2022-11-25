@@ -2,17 +2,25 @@ import { A } from "solid-start";
 export default function About() {
   return (
     <>
-      <section class="bg-zinc-600/60 lg:bg-zinc-900/90 lg:m-6 backdrop-blur-lg text-zinc-50 m-2">
+      <section class="bg-zinc-900/90 lg:bg-zinc-900/90 lg:m-6 backdrop-blur-lg text-zinc-50">
         <div class="container flex flex-col justify-center p-4 mx-auto md:p-8">
           <p class="p-2 text-sm font-medium tracking-wider text-center uppercase">How it works</p>
-          <h2 class="mb-8 text-4xl font-bold leading-none text-center sm:text-5xl">Frequently Asked Questions</h2>
+          <h2 class="mb-8 text-4xl font-bold leading-none text-center sm:text-5xl text-amber-400">Frequently Asked Questions</h2>
           <div class="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-gray-700">
-          <details>
+            <details>
               <summary class="py-4 outline-none cursor-pointer focus:underline">What this application do?</summary>
               <div class="px-4 pb-4">
                 <p>This is a web version of "wallet". Wallets are used for blockchain (web3) applications as a tools to provide authentication via unique address and to sign transactions using a private key.</p>
                 <p>Web3 applications needs a wallet installed on the user computer, most common software for this is called Metamask.</p>
                 <p>We are not a competition to a Metamask, this is a "burn" wallet. It is expected to be used for testing applications or onboarding. While it does work the same way as other wallets, recovery phrase cannot be stored safely in a browser environment and we discourage using this wallet for storing assets.</p>
+              </div>
+            </details>
+            <details>
+              <summary class="py-4 outline-none cursor-pointer focus:underline">How do I use the Burney?</summary>
+              <div class="px-4 pb-4">
+                <p>Open the web3 application you want to use on your computer. When you are asked to connect wallet, open Burney on your mobile and scan the QR code.
+                </p>
+                <p>The experience further on is similar to other wallets, keep in mind that the address is temporary and shouldn't be used for storing assets.</p>
               </div>
             </details>
             <details>
@@ -30,17 +38,17 @@ export default function About() {
             <details>
               <summary class="py-4 outline-none cursor-pointer focus:underline">Can I migrate to other wallets?</summary>
               <div class="px-4 pb-4 space-y-2">
-                <p>Yes, it is actaully our intent. If you copy the recovery phrase to the other wallet, you will have the very same wallet content as you see here.</p>
+                <p>Yes, it is actaully our intent. If you copy the recovery phrase to the other wallet, you will have the very same wallet content as you see in Burney.</p>
                 <p>Wallets in blockchain actually does not store any data except your private key that is used for accessing assets on blockchain.</p>
               </div>
             </details>
           </div>
         </div>
       </section>
-      <section class="bg-zinc-600/60 lg:bg-zinc-900/90 lg:m-6 backdrop-blur-lg text-zinc-50 m-2">
+      <section class="bg-zinc-600/60 lg:bg-zinc-900/90 lg:m-6 backdrop-blur-lg text-zinc-50">
         <div class="container flex flex-col justify-center p-4 mx-auto md:p-8">
           <p class="p-2 text-sm font-medium tracking-wider text-center uppercase">Why this exist</p>
-          <h2 class="mb-8 text-4xl font-bold leading-none text-center sm:text-5xl">Use Cases</h2>
+          <h2 class="mb-8 text-4xl font-bold leading-none text-center sm:text-5xl text-amber-400">Use Cases</h2>
           <div class="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-gray-700">
             <details>
               <summary class="py-4 outline-none cursor-pointer focus:underline">Privacy</summary>
@@ -59,7 +67,7 @@ export default function About() {
             <details>
               <summary class="py-4 outline-none cursor-pointer focus:underline">Onboarding</summary>
               <div class="px-4 pb-4 space-y-2">
-                <p>~80% of users can't or won't install wallet as a plugin on their PC. Some of them can install mobile wallet, but even this create a considerable friction for any application.</p>
+                <p>~80% of users can't or won't install wallet as a plugin on their PC. Some of them can install mobile wallet, but even this creates a considerable friction for any application.</p>
                 <p>Burney solves this by creating a wallet that does not need any installation. Users can try your application with zero risk</p>
               </div>
             </details>

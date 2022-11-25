@@ -1,11 +1,12 @@
 import { legacySignClient } from "~/utils/LegacyWalletConnectUtil";
 import walletState from "../components/WalletState";
+import { getSdkError } from "@walletconnect/utils";
 import { useNavigate } from "solid-start";
 export default function Modal({ payload }) {
     const { params } = payload;
     if (!params) return;
     const { peerMeta, chainId } = params[0];
-    const { wallet } = walletState;
+    const { wallet, changePayload } = walletState;
     const navigate = useNavigate();
     //console.log(wallet());
     async function onApprove() {
@@ -23,7 +24,9 @@ export default function Modal({ payload }) {
         }
     }
     async function onCancel() {
-        legacySignClient.rejectSession("Cancelled Session");
+        legacySignClient.rejectSession(getSdkError("USER_REJECTED_METHODS"));
+        changePayload(null);
+        navigate("/");
     }
     return (
         <>

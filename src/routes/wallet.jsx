@@ -1,3 +1,4 @@
+import { createLegacySignClient } from "~/utils/LegacyWalletConnectUtil";
 import walletState from "../components/WalletState";
 import { createEffect, createSignal, onMount, Show } from "solid-js";
 import {
@@ -5,8 +6,10 @@ import {
     storeEIP155Wallet,
 } from "~/utils/EIP155WalletUtil.js";
 
+import { approveEIP155Request, rejectEIP155Request } from '~/utils/EIP155RequestHandlerUtil';
+
 export default function WalletPage() {
-    const { wallet, changeWallet } = walletState;
+    const { wallet, changeWallet, pload, changePayload } = walletState;
     const [walletInstance, setWalletInstance] = createSignal(wallet());
     async function saveWallet() {
         storeEIP155Wallet(walletInstance().mnemonic);
@@ -14,25 +17,25 @@ export default function WalletPage() {
     async function deleteWallet() {
         createEffect(() => {
             localStorage.removeItem("EIP155_MNEMONIC_1");
+            changePayload(null);
             changeWallet(createOrRestoreEIP155Wallet());
         });
     }
     const mnemonicTokens = () => { return walletInstance()?.mnemonic.split(" "); };
-
     onMount(async () => {
         if (!walletInstance()) {
             changeWallet(createOrRestoreEIP155Wallet());
             setWalletInstance(wallet());
         }
     });
-
-
+    console.log(pload());
+    const _legacySignClient = createLegacySignClient();
 
     return (
         <main class="flex justify-center p-2">
-            <div class="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0">
-                <div class="flex flex-col p-6 space-y-6 shadow sm:p-8 bg-amber-400/60 backdrop-blur-lg text-zinc-900">
-                    <div class="space-y-2">
+            <div class="flex w-full mb-8 md:w-1/2 lg:w-1/3 lg:mb-0">
+                <div class="flex flex-col shadow bg-amber-400/60 backdrop-blur-lg text-zinc-900">
+                    <div class="space-y-2 p-6">
                         <h4 class="text-2xl font-bold">Wallet</h4>
                         <span class="text-6xl font-bold">
                             {wallet() && wallet().eip155Addresses[0].slice(0, 5)}
@@ -40,43 +43,71 @@ export default function WalletPage() {
                         <span class="text-sm tracking-wide break-all">
                             {wallet() && wallet().eip155Addresses[0].slice(5)}
                         </span>
-                    </div>
-                    <Show when={mnemonicTokens()} fallback={<div>Generating...</div>}>
-                        <details class="flex-1 space-y-2">
+                        <Show when={mnemonicTokens()} fallback={<div>Generating...</div>}>
+                            <details class="flex-1 space-y-2">
 
-                            <summary class="py-2 outline-none cursor-pointer focus:underline">
-                                Reveal recovery
-                            </summary>
-                            <For each={mnemonicTokens()} >
-                                {(item) => (
-                                    <div class="flex items-center space-x-2">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                            class="flex-shrink-0 w-6 h-6"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                clip-rule="evenodd"
+                                <summary class="py-2 outline-none cursor-pointer focus:underline">
+                                    Reveal recovery
+                                </summary>
+                                <For each={mnemonicTokens()} >
+                                    {(item) => (
+                                        <div class="flex items-center space-x-2">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                class="flex-shrink-0 w-6 h-6"
                                             >
-                                            </path>
-                                        </svg>
-                                        <span>{item}</span>
-                                    </div>
-                                )}
-                            </For>
-                        </details>
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"
+                                                >
+                                                </path>
+                                            </svg>
+                                            <span>{item}</span>
+                                        </div>
+                                    )}
+                                </For>
+                            </details>
+                        </Show>
+                    </div>
+
+                    <Show when={!pload()}>
+                        <div class="flex flex-col w-full p-6">
+                            <div class="flex items-center justify-start space-x-2">
+                                <div class="w-2 h-2 rounded-full animate-ping bg-black mr-2"></div>
+                                not connected
+                            </div>
+                        </div>
                     </Show>
 
-                    <p class="leading-relaxed">Waiting for transaction...</p>
-                    <div class="flex text-zinc-800">
+                    <Show when={pload() && pload().method === "session_request"}>
+                        <div class="flex flex-col w-full p-6">
+                            <div class="flex items-center justify-start space-x-2">
+                                <div class="w-2 h-2 rounded-full animate-ping bg-black mr-2"></div>
+                                awaiting transaction
+                            </div>
+                        </div>
+                    </Show>
+                    <Show when={pload() && pload().method === "eth_sendTransaction"}>
+                        <div class="flex flex-col w-full bg-white/25 p-2 mb-4">
+                            <div class="flex items-center justify-start space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-2">
+                                    <path d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 01-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004zM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 01-.921.42z" />
+                                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v.816a3.836 3.836 0 00-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 01-.921-.421l-.879-.66a.75.75 0 00-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 001.5 0v-.81a4.124 4.124 0 001.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 00-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 00.933-1.175l-.415-.33a3.836 3.836 0 00-1.719-.755V6z" clip-rule="evenodd" />
+                                </svg>
+                                Received Send transaction
+                            </div>
+                            <p class="text-sm pt-2"> This usually requires funding on your wallet (we discourage sending any assets on Burney)</p>
+                        </div>
+                    </Show>
+                    <div class="flex text-zinc-800 px-6 mt-12">
                         <button
                             onClick={saveWallet}
                             class="inline-block w-full px-5 py-3 font-bold tracking-wider text-center bg-zinc-800 text-amber-400"
                         >
-                            Save
+                            Save Wallet
                         </button>
                         <button onclick={deleteWallet}>
                             <svg
@@ -93,7 +124,7 @@ export default function WalletPage() {
                             </svg>
                         </button>
                     </div>
-                    <p class="leading-relaxed text-sm">
+                    <p class="leading-relaxed text-sm px-6 pb-4">
                         Save wallet to your browser storage. Not considered safe, please do
                         not send any assets to the wallet you saved.
                     </p>
