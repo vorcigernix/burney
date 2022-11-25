@@ -1,4 +1,4 @@
-import { EIP155_CHAINS, EIP155_SIGNING_METHODS, TEIP155Chain } from './EIP155Data';
+import { EIP155_CHAINS, EIP155_SIGNING_METHODS } from './EIP155Data';
 import { eip155Addresses, eip155Wallets } from './EIP155WalletUtil';
 import {
   getSignParamsMessage,
@@ -15,6 +15,9 @@ export async function approveEIP155Request(
   const { params, id } = requestEvent;
   const { chainId, request } = params;
   const wallet = eip155Wallets[getWalletAddressFromParams(eip155Addresses, params)];
+  const eip155network = `eip155:${Number(chainId)}`;
+  //console.log(eip155network);
+  //console.log(EIP155_CHAINS[eip155network].rpc);
 
   switch (request.method) {
     case EIP155_SIGNING_METHODS.PERSONAL_SIGN:
@@ -33,7 +36,7 @@ export async function approveEIP155Request(
       return formatJsonRpcResult(id, signedData);
 
     case EIP155_SIGNING_METHODS.ETH_SEND_TRANSACTION:
-      const provider = new providers.JsonRpcProvider(EIP155_CHAINS[chainId].rpc);
+      const provider = new providers.JsonRpcProvider(EIP155_CHAINS[eip155network].rpc);
       const sendTransaction = request.params[0];
       const connectedWallet = wallet.connect(provider);
       const { hash } = await connectedWallet.sendTransaction(sendTransaction);

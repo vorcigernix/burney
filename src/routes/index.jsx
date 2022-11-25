@@ -8,6 +8,7 @@ import { createSignal, createEffect, onMount } from 'solid-js';
 export default function Home() {
   const [method, setMethod] = createSignal("");
   const { pload, changeWallet } = walletState;
+  console.log(method())
 
   onMount(() => {
     changeWallet(createOrRestoreEIP155Wallet());

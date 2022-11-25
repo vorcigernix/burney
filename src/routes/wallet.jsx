@@ -28,7 +28,37 @@ export default function WalletPage() {
             setWalletInstance(wallet());
         }
     });
-    console.log(pload());
+    //console.log(pload());
+    // Handle approve action
+    async function onApprove() {
+        if (!pload()) return;
+        const { id, method, params } = pload();
+        const { result } = await approveEIP155Request({
+            id,
+            topic: '',
+            params: { request: { method, params }, chainId: '1' }
+        });
+        console.log(result);
+        legacySignClient.approveRequest({
+            id,
+            result
+        });
+    }
+
+    // Handle reject action
+    async function onCancel() {
+        if (pload()) {
+            const { error } = rejectEIP155Request({
+                id,
+                topic: '',
+                params: { request: { method, params }, chainId: '1' }
+            });
+            legacySignClient.rejectRequest({
+                id,
+                error
+            });
+        }
+    }
     const _legacySignClient = createLegacySignClient();
 
     return (
@@ -73,14 +103,6 @@ export default function WalletPage() {
                         </Show>
                     </div>
 
-                    <Show when={!pload()}>
-                        <div class="flex flex-col w-full p-6">
-                            <div class="flex items-center justify-start space-x-2">
-                                <div class="w-2 h-2 rounded-full animate-ping bg-black mr-2"></div>
-                                not connected
-                            </div>
-                        </div>
-                    </Show>
 
                     <Show when={pload() && pload().method === "session_request"}>
                         <div class="flex flex-col w-full p-6">
@@ -100,6 +122,12 @@ export default function WalletPage() {
                                 Received Send transaction
                             </div>
                             <p class="text-sm pt-2"> This usually requires funding on your wallet (we discourage sending any assets on Burney)</p>
+                            <div class="flex flex-col justify-end gap-3 mt-6 sm:flex-row">
+                                <button onClick={onCancel} class="px-6 py-2 ">Cancel</button>
+                                <button onClick={onApprove} class="px-6 py-2 shadow-sm bg-amber-400 text-zinc-900">
+                                    Approve
+                                </button>
+                            </div>
                         </div>
                     </Show>
                     <div class="flex text-zinc-800 px-6 mt-12">
@@ -124,7 +152,7 @@ export default function WalletPage() {
                             </svg>
                         </button>
                     </div>
-                    <p class="leading-relaxed text-sm px-6 pb-4">
+                    <p class="leading-relaxed text-sm px-6 pb-4 mt-2">
                         Save wallet to your browser storage. Not considered safe, please do
                         not send any assets to the wallet you saved.
                     </p>
